@@ -58,4 +58,3 @@ else {
 	LocalRedirect($SITE_DIR);
 }
 ?>
-<script type="text/javascript" src="activEdit.js"></script>

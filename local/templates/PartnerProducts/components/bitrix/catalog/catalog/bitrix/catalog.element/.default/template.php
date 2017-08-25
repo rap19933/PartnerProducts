@@ -292,13 +292,7 @@ isset($arResult["IPROPERTY_VALUES"]["ELEMENT_DETAIL_PICTURE_FILE_ALT"]) && $arRe
 				<div class="item_info_section">
 					<?
 					if (!empty($arResult['DISPLAY_PROPERTIES']))
-					{
-						$db_props = CIBlockElement::GetProperty(
-							$arResult["DISPLAY_PROPERTIES"]["ATT_PARTNER"]["LINK_IBLOCK_ID"],
-							$arResult["DISPLAY_PROPERTIES"]["ATT_PARTNER"]["VALUE"],
-							"sort",
-							"asc",
-							array());?>
+					{?>
 						<dl>
 							<?$view = true;
 							foreach ($arResult['DISPLAY_PROPERTIES'] as &$arOneProp)
@@ -312,22 +306,18 @@ isset($arResult["IPROPERTY_VALUES"]["ELEMENT_DETAIL_PICTURE_FILE_ALT"]) && $arRe
 										: $arOneProp['DISPLAY_VALUE']
 									); ?></dd>
 								<?
-								while($ar_props = $db_props->Fetch())
-								{
-									if (!empty($ar_props['VALUE_ENUM']))
-									{
-										if($view ){?>
-											<dt><? echo $ar_props['NAME']; ?></dt>
-											<?
-											$view = false;
-										}?>
-										<dd><? echo $ar_props['VALUE_ENUM']; ?></dd>
-									<?}
-									else
-										if ($ar_props['CODE'] !== "OPERATOR"){?>
-											<dt><? echo $ar_props['NAME']; ?></dt>
-											<dd><? echo $ar_props['VALUE']; ?></dd>
-										<?}
+								if (!empty($arOneProp["PROPERTY_NAME"]))
+								{?>
+									<dt><? echo $arOneProp["PROPERTY_NAME"]; ?></dt>
+									<dd><? echo $arOneProp["PROPERTY_VALUE"]; ?></dd>
+								<?}
+								if (!empty($arOneProp["PROPERTY_NAME_ENUM"]))
+								{?>
+									<dt><? echo $arOneProp["PROPERTY_NAME_ENUM"]; ?></dt>
+									<?foreach ($arOneProp['PROPERTY_VALUE_ENUM'] as $i => $arEnum)
+								{?>
+									<dd><? echo ($i+1).'-'.$arEnum; ?></dd>
+								<?}
 								}
 							}
 							unset($arOneProp);
